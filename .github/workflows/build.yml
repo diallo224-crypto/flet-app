@@ -1,21 +1,30 @@
-name: Build APK
-on: push
+name: Build APK 224
+on: workflow_dispatch
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'  
+          
       - uses: subosito/flutter-action@v2
         with:
-          channel: stable
+          flutter-version: '3.24.0'
+          channel: 'stable'
           
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.11'
           
-      - run: pip install flet==0.26.0
+      - run: pip install flet==0.25.2 
+      
       - run: flet build apk --verbose
+      
       - uses: actions/upload-artifact@v4
         with:
           name: apk-224-forever
