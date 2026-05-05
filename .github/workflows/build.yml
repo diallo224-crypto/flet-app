@@ -1,17 +1,22 @@
-name:Build APK
-on:[push]
+name: Build APK
+on: push
 jobs:
- build
-  runs-on:ubuntu-latest
-  steps:
-  - uses: actions/checkout@v4
-  - uses: subosito/flutter-action@v2
-  -uses: actions/setup-python@v5
-   with:
-    python-version:'3.12'
-    -run: pip install flet
-    -run: flet build apk--verbose
-    -uses: actions/upload-artifact@v4
-     with:
-     name: apk-224-forever
-     path: build/apk/app-release.apk
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          
+      - run: pip install flet==0.26.0
+      - run: flet build apk --verbose
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk-224-forever
+          path: build/apk/app-release.apk
